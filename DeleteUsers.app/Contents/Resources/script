@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "Users deleted:"
+echo " "
+for home in $(ls /Users | grep -v -e UM-Support -e ladmin -e stadmin -e Shared -e jcaudio -e inlerabt -e root -e loginwindow)
+do
+    echo $home
+    sysadminctl -deleteUser $home
+    #sysadminctl -adminUser admin -adminPassword admin_pw -deleteUser $home 
+done
+echo " "
+echo "Process complete."
