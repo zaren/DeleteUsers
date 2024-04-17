@@ -26,3 +26,7 @@ Changes can be made within the executable by editing
 ```
 /DeleteUsers.app/Contents/Resources/script
 ```
+
+### Fiddly bits
+
+This is a very blunt object of a script. Once you give it your admin password, accounts WILL be deleted with no further prompting, and will continue to be deleted until /Users has been scanned completely. Please be sure there is no data that is needed to be saved from those accounts, because it won't be there once you set the script loose.
