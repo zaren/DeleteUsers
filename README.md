@@ -17,7 +17,7 @@ By default, this script will delete ALL user accounts on the machine, with the e
 for home in $(ls /Users | grep -v -e admin -e Shared -e root -e loginwindow)
 ```
 
-You may add your admin and / or testing account to this line by appending 
+You may add your admin and / or testing account to this line by adding 
 > -e account_name
 
 to that line.
