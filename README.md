@@ -42,7 +42,7 @@ After all users have been deleted, the script will finish, prompting you to quit
 
 <img width="265" alt="done" src="https://github.com/zaren/DeleteUsers/assets/2085312/5b5196f9-9d89-4a07-a51f-d2bab0ef4b96">
 
- 
+----- 
 
 The `periodic` script will delete user accounts once a drive space usage percentage is reached, with no interaction needed. That amount is defined under the `limit` variable. 
 
