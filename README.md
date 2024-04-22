@@ -12,7 +12,7 @@ delete user accounts, quickly freeing up space. (An automated version of this is
 
 The application can be stored anywhere on the machine, but it is recommended that it be kept in a location only accessible by those with admin access. 
 
-The script is intended to run automatically by way of the `periodic` utility - placing it in /etc/periodic/daily would be good for a higher traffic lab.
+The script is intended to run automatically by way of the `periodic` utility - placing it in /etc/periodic/daily would be good for a higher traffic lab. (See https://www.alansiu.net/2020/08/26/running-daily-weekly-and-monthly-scripts-in-macos-using-periodic/ for more info.)
 
 **VERY IMPORTANT!** Make sure you edit these scripts BEFORE first run! 
 
