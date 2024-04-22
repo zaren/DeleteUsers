@@ -42,8 +42,13 @@ After all users have been deleted, the script will finish, prompting you to quit
 
 <img width="265" alt="done" src="https://github.com/zaren/DeleteUsers/assets/2085312/5b5196f9-9d89-4a07-a51f-d2bab0ef4b96">
 
+ 
 
 The `periodic` script will delete user accounts once a drive space usage percentage is reached, with no interaction needed. That amount is defined under the `limit` variable. 
+
+If the script executes and deletes users, it will send an email through `sendmail`. Subject, recipients, and content are defined in the following line:
+
+`echo "To: admin@example.com\ncc: other_admin@example.com\nSubject: Disk usage $usep% on $(hostname)\nLocal storage has exceeded $limit%. The following users were automatically deleted: $deletedUsers" | sendmail -f admin@example.com -t admin@example.com other_admin@example.com`
 
 ### Fiddly bits
 
