@@ -1,0 +1,30 @@
+#!/bin/sh
+
+### Capturing uniqname of user currently logging in to system
+loggedInUser=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
+
+### Checking usage of each disk slice
+df -H | grep -vE '^Filesystem|tmpfs|cdrom|devfs|map' | awk '{ print $5 " " $9 }' | while read output;
+do
+  echo $output
+  usep=$(echo $output | awk '{ print $1}' | cut -d'%' -f1  )
+  partition=$(echo $output | awk '{ print $2 }' )
+
+### Setting limit of usage for triggering script
+### Confirming that the user Data slice is triggering usage
+  if [ $usep -ge 90 ] && [ $partition = '/System/Volumes/Data' ] ; then
+
+    # Email notification
+echo "To: admin@example.com\ncc:other_admin@example.com\nSubject: Disk usage $usep% on $(hostname)\nLocal storage has exceeded 90%. DeleteUsers script running automatically." | sendmail -f admin@example.com -t admin@example.com other_admin@example.com
+  fi
+done
+
+### Checking all accounts in /Users and excluding privileged accounts and any user currently logged in
+        for home in $(ls /Users | grep -v -e admin -e Shared -e root -e loginwindow)
+                do
+
+### Deleting users
+                sysadminctl -deleteUser $home
+                done
+        fi
+done
