@@ -9,15 +9,19 @@ delete user accounts, quickly freeing up space. (An automated version of this is
 
 ## Installation
 
-The application and script can be stored anywhere on the machine, but it is recommended that it be kept in a location only accessible by those with admin access.
+The application can be stored anywhere on the machine, but it is recommended that it be kept in a location only accessible by those with admin access. 
 
-By default, this script will delete ALL user accounts on the machine, with the exception of those delcared within the script. The line in the script that declares those accounts is
+The script is intended to run automatically bvy way of the periodic utility - placing it in /etc/periodic/daily would be good for a higher traffic lab.
+
+## Usage
+
+By default, this script will delete ALL user accounts on the machine, with the exceptions of the currently logged in user, and those accounts delcared within the script. The line in the script that declares those accounts is
 
 ```
 for home in $(ls /Users | grep -v -e admin -e Shared -e root -e loginwindow)
 ```
 
-You may add your admin and / or testing account to this line by adding 
+You may add your admin / testing / other accounts of value to this line by adding 
 > -e account_name
 
 to that line.
@@ -26,6 +30,10 @@ Changes can be made within the executable by editing
 ```
 /DeleteUsers.app/Contents/Resources/script
 ```
+
+The periodic script will delete user accounts once a drive space usage limit is reached. That is defined under the "limit" variable. 
+
+The application just goes to work once admin access is granted, not concerning itself with storage limit checking.
 
 ### Fiddly bits
 
