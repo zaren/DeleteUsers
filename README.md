@@ -1,4 +1,4 @@
-# DeleteUsers
+![DeleteUsers](https://github.com/zaren/DeleteUsers/assets/2085312/81f31fb4-d0d3-46e1-a000-e1dc58f16d49) # DeleteUsers
 
 DeleteUsers is available as both a script and a GUI-based executable that will delete user account data off of a macOS machine, excluding any pre-defined users.
 
