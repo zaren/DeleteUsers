@@ -20,7 +20,7 @@ do
  ### setting DB of deleted user names
     deletedUsers=""
  ### List of users to avoid deleting
-    for home in $(ls /Users | grep -v -e loggedInUser -e admin -e Shared -e root -e .localized -e loginwindow)
+    for home in $(ls /Users | grep -v -e $loggedInUser -e admin -e Shared -e root -e .localized -e loginwindow)
     do
       ### Deleting users
       sysadminctl -deleteUser $home
