@@ -5,8 +5,9 @@ DeleteUsers is available as both a script and an application that will delete us
 
 ## Why?
 
-Managed lab machines have a tendency to run low on space, as users will occasionally leave large amounts of content behind. This script can be manually run at any time to 
-delete user accounts, quickly freeing up space. (An automated version of this is in testing, and may be included in future updates.)
+Managed lab machines have a tendency to run low on space, as users will occasionally leave large amounts of content behind. I put this application together to help streamline the deletion process. Having seen several requests for how to do something like this in the MacAdmins Slack, I decided to make my version of this tool public as sample code. Feel free to tinker with it and modify it to fit your needs. 
+
+This application can be manually run at any time to delete user accounts, while the script can be used to automate the process.
 
 ## Installation
 
