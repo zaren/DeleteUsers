@@ -1,29 +1,34 @@
 #!/bin/sh
 
-### Capturing uniqname of user currently logging in to system
+### Capturing uniqname of user currently logged in to system
 loggedInUser=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
 
 ### Checking usage of each disk slice 
 df -H | grep -vE '^Filesystem|tmpfs|cdrom|devfs|map' | awk '{ print $5 " " $9 }' | while read output;
 do
   echo $output
+### Capturing percentage of disk slice in use
   usep=$(echo $output | awk '{ print $1}' | cut -d'%' -f1  )
+### Setting limit of disk usage in percent to trigger script
   limit=90
   partition=$(echo $output | awk '{ print $2 }' )
 
-### Setting limit of usage for triggering script
 ### Confirming that the user Data slice is triggering usage
-  if [ $usep -ge 90 ] && [ $partition = '/System/Volumes/Data' ] ; then
+  if [ $usep -ge $limit ] && [ $partition = '/System/Volumes/Data' ] ; then
 
-# Email notification
+### Deletion process
+ ### setting DB of deleted user names
     deletedUsers=""
-    for home in $(ls /Users | grep -v -e admin -e Shared -e root -e .localized -e loginwindow)
+ ### List of users to avoid deleting
+    for home in $(ls /Users | grep -v -e loggedInUser -e admin -e Shared -e root -e .localized -e loginwindow)
     do
       ### Deleting users
       sysadminctl -deleteUser $home
+      ### Adding name of deleted user to DB to include in email
       deletedUsers="$deletedUsers $home"
     done
 
+### Email notification
     echo "To: admin@example.com\ncc: other_admin@example.com\nSubject: Disk usage $usep% on $(hostname)\nLocal storage has exceeded $limit%. The following users were automatically deleted: $deletedUsers" | sendmail -f admin@example.com -t admin@example.com other_admin@example.com
   fi
 done
