@@ -9,6 +9,10 @@ Managed lab machines have a tendency to run low on space, as users will occasion
 
 This application can be manually run at any time to delete user accounts, while the script can be used to automate the process.
 
+### Disclaimer
+
+The following code is provide as a community resource and as sample code for testing purposes, and is licensed under the terms of Apache license 2.0. No warranty is expressed or implied. Any results from the execution of the following code are 100% the responsiblity of the downloader and executor.
+
 ## Installation
 
 The application can be stored anywhere on the machine, but it is recommended that it be kept in a location only accessible by those with admin access. 
