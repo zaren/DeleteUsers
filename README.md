@@ -45,7 +45,7 @@ Once the application finds a user to delete, it will prompt you again for permis
 
 After all users have been deleted, the script will finish, prompting you to quit the application:
 
-<img width="265" alt="done" src="https://github.com/zaren/DeleteUsers/assets/2085312/5b5196f9-9d89-4a07-a51f-d2bab0ef4b96">
+<img width="265" alt="finished" src="https://github.com/zaren/DeleteUsers/assets/2085312/86340a91-c914-4b29-bdde-733cafe50fd0">
 
 ----- 
 
