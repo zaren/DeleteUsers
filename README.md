@@ -25,7 +25,7 @@ This script will delete ALL user accounts on the machine, with the exceptions of
 
 `for home in $(ls /Users | grep -v -E 'admin|.localized|Shared|root|loginwindow'); do`
 
-You may add your admin / testing / other accounts of value to this line by adding additional `-e account_name` entries to that line.
+You may add your admin / testing / other accounts of value to this line by adding additional `|account_name` entries to that line.
 
 Changes can be made within the executable by editing `/DeleteUsers.app/Contents/Resources/script`
 
