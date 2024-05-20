@@ -23,7 +23,7 @@ The script is intended to run automatically by way of the `periodic` utility - p
 
 This script will delete ALL user accounts on the machine, with the exceptions of the currently logged in user, and those accounts delcared within the script. By default, the line in the script that declares those accounts is
 
-`for home in $(ls /Users | grep -v -e admin -e Shared -e root -e loginwindow)`
+`for home in $(ls /Users | grep -v -E 'admin|.localized|Shared|root|loginwindow'); do`
 
 You may add your admin / testing / other accounts of value to this line by adding additional `-e account_name` entries to that line.
 
