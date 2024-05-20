@@ -51,10 +51,14 @@ After all users have been deleted, the script will finish, prompting you to quit
 
 The `periodic` script will delete user accounts once a drive space usage percentage is reached, with no interaction needed. That amount is defined under the `limit` variable. 
 
-If the script executes and deletes users, it will send an email through `sendmail` on the local macihne. Subject, recipients, and content are defined in the following line:
+If the script executes and deletes users, it will send an email through `sendmail` on the local machine. Subject, recipients, and content are defined in the following line:
 
 `echo "To: admin@example.com\ncc: other_admin@example.com\nSubject: Disk usage $usep% on $(hostname)\nLocal storage has exceeded $limit%. The following users were automatically deleted: $deletedUsers" | sendmail -f admin@example.com -t admin@example.com other_admin@example.com`
 
 ### Fiddly bits
 
 This is a very blunt object of a script. Once you give it your admin password, accounts WILL be deleted with no further prompting, and will continue to be deleted until /Users has been scanned completely. Please be sure there is no data that is needed to be saved from those accounts, because it won't be there once you set the script loose.
+
+As of version 1.1.0, app activity is now logged for later review.
+
+Log files can be found in `/var/log/555.DeleteUsers.log` for actions performed by the `periodic` script, and in `/var/log/DeleteUsersGUI.log` for actions performed by the application.
