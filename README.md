@@ -21,9 +21,9 @@ The script is intended to run automatically by way of the `periodic` utility - p
 
 **VERY IMPORTANT!** Make sure you edit these scripts BEFORE first run! 
 
-This script will delete ALL user accounts on the machine, with the exceptions of the currently logged in user, and those accounts delcared within the script. By default, the line in the script that declares those accounts is
+This script will delete ALL user accounts on the machine, with the exceptions of the currently logged in user, and those accounts whitelisted within the script. By default, the line in the script that declares those accounts is
 
-`for home in $(ls /Users | grep -v -E 'admin|.localized|Shared|root|loginwindow'); do`
+`for home in $(ls /Users | grep -v -E 'admin|.localized|Shared|root|loginwindow'); do ### <-- whitelist users here`
 
 You may add your admin / testing / other accounts of value to this line by adding additional `|account_name` entries to that line.
 
@@ -35,7 +35,12 @@ When you launch the application, you will be prompted for admin rights:
 
 <img width="162" alt="admin rights" src="https://github.com/zaren/DeleteUsers/assets/2085312/d0a744c3-e1c8-48bd-a90a-65371fc54cc3">
 
-From there, the main app window will appear (the "Details" window is closed on first launch, but can be toggled open to see a list of deleted users):
+From there, you will get a pop-up window reminding you to make sure your admin accounts and other important users are whitelisted:
+
+<img width="340" alt="pop-up" src="https://github.com/zaren/DeleteUsers/assets/2085312/465e532c-0a21-4574-896c-0334714d1eac">
+
+
+Next, the main app window will appear (the "Details" window is closed on first launch, but can be toggled open to see a list of deleted users):
 
 <img width="269" alt="main window" src="https://github.com/zaren/DeleteUsers/assets/2085312/4f30cd1d-9f17-4728-a05e-accf26aecbc4">
 
@@ -57,8 +62,10 @@ If the script executes and deletes users, it will send an email through `sendmai
 
 ### Fiddly bits
 
-This is a very blunt object of a script. Once you give it your admin password, accounts WILL be deleted with no further prompting, and will continue to be deleted until /Users has been scanned completely. Please be sure there is no data that is needed to be saved from those accounts, because it won't be there once you set the script loose.
+This is a very blunt object of a script. Once you give it permission to run, accounts WILL be deleted, and will continue to be deleted until /Users has been scanned completely. Please be sure there is no data that is needed to be saved from those accounts, because it won't be there once you set the script loose.
 
 As of version 1.1.0, app activity is now logged for later review.
 
 Log files can be found in `/var/log/555.DeleteUsers.log` for actions performed by the `periodic` script, and in `/var/log/DeleteUsersGUI.log` for actions performed by the application.
+
+As of version 1.2.0, the application will pop up a warning window after granting admin rights, confirming that you actually want to delete users.
