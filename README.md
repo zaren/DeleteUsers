@@ -25,7 +25,7 @@ This script will delete ALL user accounts on the machine, with the exceptions of
 
 `exclusion_pattern="admin|.localized|Shared|root|loginwindow" ### <-- whitelist users here`
 
-You may add your admin / testing / other accounts of value to this line by adding additional `|account_name` entries to that line.
+You may add your admin / testing / other accounts of value to this line by adding additional `account_name` entries to that line with a `|` separating them.
 
 Changes can be made within the executable by editing `/DeleteUsers.app/Contents/Resources/script`
 
