@@ -37,13 +37,21 @@ log " "
 
     # Checking for protected users
     # Add additional accounts to be saved below
-    for home in $(ls /Users | grep -v -E 'admin|.localized|Shared|root|loginwindow'); do ### <-- whitelist users here
+    for home in $(ls /Users | grep -v -E "admin|.localized|${loggedInUser}|Shared|root|loginwindow"); do ### <-- whitelist users here
 
-      log "Processing user: $home"
-      # Deleting non-protected users
-      sysadminctl -deleteUser $home
+  # Verify user removal
+  if [ $? -eq 0 ]; then
       log "Deleted user: $home"
       deletedUsers="$deletedUsers $home"
+      
+      # Check and remove home directory
+      if [ -d "/Users/$home" ]; then
+          rm -rf "/Users/$home"
+          log "Deleted home directory for: $home"
+      fi
+  else
+      log "Failed to delete user: $home"
+  fi
 done
 
 # End logging
