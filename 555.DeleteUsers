@@ -28,6 +28,21 @@ do
 # Confirming that the user Data slice is triggering usage
   if [ $usep -ge $limit ] && [ $partition = '/System/Volumes/Data' ] ; then
 
+# Create the whitelist of users to avoid deleting here
+exclusion_pattern="admin|.localized|Shared|root|loginwindow" ### <-- whitelist users here
+
+# If a user is logged in, add `loggedInUser` to the exclusion pattern
+if [ -n "$loggedInUser" ]; then
+    exclusion_pattern="${exclusion_pattern}|${loggedInUser}"
+fi
+
+# Log the detected logged-in user (or indicate none)
+if [ -n "$loggedInUser" ]; then
+    log "Logged in user detected: $loggedInUser"
+else
+    log "No user is currently logged in."
+fi
+
 # Log users to be deleted
 log "Users to be deleted:"
 log " "
@@ -37,13 +52,18 @@ log " "
 
     # Checking for protected users
     # Add additional accounts to be saved below
-    for home in $(ls /Users | grep -v -E "admin|.localized|${loggedInUser}|Shared|root|loginwindow"); do ### <-- whitelist users here
+for home in $(ls /Users | grep -v -E "$exclusion_pattern"); do
+
+  log "Processing user: $home"
+  # Deleting non-protected users
+    /usr/bin/dscl . -delete /Users/$home -secure
+    sysadminctl -deleteUser $home -secure
 
   # Verify user removal
   if [ $? -eq 0 ]; then
       log "Deleted user: $home"
       deletedUsers="$deletedUsers $home"
-      
+
       # Check and remove home directory
       if [ -d "/Users/$home" ]; then
           rm -rf "/Users/$home"
@@ -58,6 +78,9 @@ done
 log " "
 log "Process complete."
 log " "
+
+# Refreshing the user list
+sudo killall opendirectoryd
 
 # Sending email notification of activity to designated admin
 ## Change sender and recipients below
