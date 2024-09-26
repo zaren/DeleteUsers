@@ -23,7 +23,7 @@ The script is intended to run automatically by way of the `periodic` utility - p
 
 This script will delete ALL user accounts on the machine, with the exceptions of the currently logged in user, and those accounts whitelisted within the script. By default, the line in the script that declares those accounts is
 
-`for home in $(ls /Users | grep -v -E "admin|${loggedInUser}|.localized|Shared|root|loginwindow"); do ### <-- whitelist users here`
+`exclusion_pattern="admin|.localized|Shared|root|loginwindow" ### <-- whitelist users here`
 
 You may add your admin / testing / other accounts of value to this line by adding additional `|account_name` entries to that line.
 
