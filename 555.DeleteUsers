@@ -56,7 +56,7 @@ for home in $(ls /Users | grep -v -E "$exclusion_pattern"); do
 
   log "Processing user: $home"
   # Deleting non-protected users
-    /usr/bin/dscl . -delete /Users/$home -secure
+    /usr/bin/dscl . -delete "/Users/$home" -secure
     sysadminctl -deleteUser $home -secure
 
   # Verify user removal
