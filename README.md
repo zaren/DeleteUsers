@@ -9,9 +9,13 @@ Managed lab machines have a tendency to run low on space, as users will occasion
 
 This application can be manually run at any time to delete user accounts, while the script can be used to automate the process.
 
-### Disclaimer
+### Disclaimer #1
 
 The following code is provide as a community resource and as sample code for testing purposes, and is licensed under the terms of Apache license 2.0. No warranty is expressed or implied. Any results from the execution of the following code are 100% the responsiblity of the downloader and executor.
+
+### Disclaimer #2
+
+The automated version of this script does not function as intended, due to a permissions issue with user tokens. It will delete user data, but not remove those accounts from Users & Groups, leading to login failures. Running the script manually, or running the GUI app, works as expected. I am continuing to work on a solution to this, but for further assistance in the meantime, see Disclaimer #1.
 
 ## Installation
 
