@@ -15,7 +15,7 @@ The following code is provide as a community resource and as sample code for tes
 
 ### Disclaimer #2
 
-The automated version of this script does not function as intended, due to a permissions issue with user tokens. It will delete user data, but not remove those accounts from Users & Groups, leading to login failures. Running the script manually, or running the GUI app, works as expected. I am continuing to work on a solution to this, but for further assistance in the meantime, see Disclaimer #1.
+The automated version of this script does not function as intended, due to a permissions issue with user tokens. It will delete user data - i.e. `/Users/bob`, but not remove those accounts from Users & Groups, leading to login failures. Running the script manually, or running the GUI app, works as expected. I am continuing to work on a solution to this, but for further assistance in the meantime, see Disclaimer #1.
 
 ## Installation
 
