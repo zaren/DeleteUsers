@@ -17,6 +17,10 @@ The following code is provide as a community resource and as sample code for tes
 
 The automated version of this script does not function as intended, due to a permissions issue with user tokens. It will delete user data - i.e. `/Users/bob`, but not remove those accounts from Users & Groups, leading to login failures. Running the script manually, or running the GUI app, works as expected. I am continuing to work on a solution to this, but for further assistance in the meantime, see Disclaimer #1.
 
+### Disclaimer #3
+
+As of macOS 15 Sequoia, Apple has removed `periodic` from the system, rendering the automated script portion of this tool non-functional. Please hold while I re-work that part to function with `launchd`. The stand-alone app still functions as expected.
+
 ## Installation
 
 The application can be stored anywhere on the machine, but it is recommended that it be kept in a location only accessible by those with admin access. 
