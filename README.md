@@ -9,35 +9,29 @@ Managed lab machines have a tendency to run low on space, as users will occasion
 
 This application can be manually run at any time to delete user accounts, while the script can be used to automate the process.
 
-### Disclaimer #1
+### Disclaimer:
 
 The following code is provide as a community resource and as sample code for testing purposes, and is licensed under the terms of Apache license 2.0. No warranty is expressed or implied. Any results from the execution of the following code are 100% the responsiblity of the downloader and executor.
-
-### Disclaimer #2
-
-The automated version of this script does not function as intended, due to a permissions issue with user tokens. It will delete user data - i.e. `/Users/bob`, but not remove those accounts from Users & Groups, leading to login failures. Running the script manually, or running the GUI app, works as expected. I am continuing to work on a solution to this, but for further assistance in the meantime, see Disclaimer #1.
-
-### Disclaimer #3
-
-As of macOS 15 Sequoia, Apple has removed `periodic` from the system, rendering the automated script portion of this tool non-functional. Please hold while I re-work that part to function with `launchd`. The stand-alone app still functions as expected.
 
 ## Installation
 
 The application can be stored anywhere on the machine, but it is recommended that it be kept in a location only accessible by those with admin access. 
 
-The script is intended to run automatically by way of the `periodic` utility - placing it in /etc/periodic/daily would be good for a higher traffic lab. (See https://www.alansiu.net/2020/08/26/running-daily-weekly-and-monthly-scripts-in-macos-using-periodic/ for more info.)
+The script should be placed in `/usr/local/bin` by default, as is it managed with the `launchd` utility. The script is also dependant on your systems being managed with Jamf, as it calls `/usr/local/bin/jamf` to perform its work. (This is the only tool I have found to work with Apple's secure token and volume ownership processes.)
 
-**VERY IMPORTANT!** Make sure you edit these scripts BEFORE first run! 
+**VERY IMPORTANT!** Make sure you edit the script / application BEFORE first run!
 
-This script will delete ALL user accounts on the machine, with the exceptions of the currently logged in user, and those accounts whitelisted within the script. By default, the line in the script that declares those accounts is
+DeleteUsers - as the name implies - will delete ALL user accounts on the machine, with the exceptions of the currently logged in user, and those accounts whitelisted within the script. If you have any accounts on the machine that you want to keep, make sure to whitelist them before the first run! 
+
+By default, the line in the script that whitelists those accounts is:
 
 `exclusion_pattern="admin|.localized|Shared|root|loginwindow" ### <-- whitelist users here`
 
-You may add your admin / testing / other accounts of value to this line by adding additional `account_name` entries to that line with a `|` separating them.
+You need to add your admin / testing / other accounts of value to this line by adding additional `account_name` entries to that line with a `|` separating them.
 
-Changes can be made within the executable by editing `/DeleteUsers.app/Contents/Resources/script`
+Changes can be made within the executable by editing `/DeleteUsers.app/Contents/Resources/script`.
 
-## Usage
+## Usage - application:
 
 When you launch the application, you will be prompted for admin rights:
 
@@ -62,7 +56,55 @@ After all users have been deleted, the script will finish, prompting you to quit
 
 ----- 
 
-The `periodic` script will delete user accounts once a drive space usage percentage is reached, with no interaction needed. That amount is defined under the `limit` variable. 
+## Usage - script:
+
+The script is managed via `launchd`, so there is some setup involved to get it running. After copying the script to its preferred location and confirming the whitelist, a .plist file needs to be created to schedule the script's execution. It should look similar to this, and is currently configured to run daily at 3 am:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example.DeleteUsers</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/DeleteUsers.sh</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>3</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/var/log/DeleteUsers.log</string>
+    <key>StandardErrorPath</key>
+    <string>//var/log/DeleteUsers.err</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
+```
+
+Once the .plist is created, the script needs to be actived, which is done by issuing the following command:
+
+`sudo launchctl start /usr/local/bin/DeleteUsers.sh`
+
+If changes need to be made to the script after it has started, its launchd process must be stopped:
+
+`sudo launchctl stop /usr/local/bin/DeleteUsers.sh`
+
+After that, changes can be made, and the script re-activated with the previous `launchctl start` command.
+
+---
+
+The `DeleteUsers.sh` script will delete all non-whitelisted user accounts with no interaction needed once a drive space usage percentage is reached. That percentage is defined in the script under the `limit` variable. 
 
 If the script executes and deletes users, it will send an email through `sendmail` on the local machine. Subject, recipients, and content are defined in the following line:
 
@@ -72,8 +114,4 @@ If the script executes and deletes users, it will send an email through `sendmai
 
 This is a very blunt object of a script. Once you give it permission to run, accounts WILL be deleted, and will continue to be deleted until /Users has been scanned completely. Please be sure there is no data that is needed to be saved from those accounts, because it won't be there once you set the script loose.
 
-As of version 1.1.0, app activity is now logged for later review.
-
-Log files can be found in `/var/log/555.DeleteUsers.log` for actions performed by the `periodic` script, and in `/var/log/DeleteUsersGUI.log` for actions performed by the application.
-
-As of version 1.2.0, the application will pop up a warning window after granting admin rights, confirming that you actually want to delete users.
+Log files can be found in `/var/log/DeleteUsers.log` for actions performed by the script, and in `/var/log/DeleteUsersGUI.log` for actions performed by the application.
