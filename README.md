@@ -58,7 +58,7 @@ After all users have been deleted, the script will finish, prompting you to quit
 
 ## Usage - script:
 
-The script is managed via `launchd`, so there is some setup involved to get it running. After copying the script to its preferred location and confirming the whitelist, a .plist file needs to be created to schedule the script's execution. It should look similar to this, and is currently configured to run daily at 3 am:
+The script is managed via `launchd`, so there is some setup involved to get it running. After copying the script to its preferred location (`/usr/local/bin` is a good location) and confirming the whitelist in the script, a .plist file needs to be created to schedule the script's execution. In the example below, the .plist is located in `/Library/LaunchDaemons` and is currently configured to run daily at 3 am:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
